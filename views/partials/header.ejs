@@ -1,0 +1,49 @@
+<div>
+    <header id="page-topbar">
+        <div class="navbar-header container">
+            <div class="d-flex">
+                <!-- LOGO -->
+                <div class="navbar-brand-box">
+                    <a href="/" class="logo logo-light">
+                        <span class="logo-sm">
+                            <img src="images/Nasa.png" alt="" height="40" style="border-radius: 5px;">
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="d-flex">
+                <% if (session.user) { %>
+                    <div class="d-inline-block">
+                        <a href="javascript:void(0);" onclick="logout()" class="header-item">Logout</a>
+                    </div>
+                    <div class="d-inline-block">
+                        <a href="javascript:void(0);" class="header-item" id="user_name"></a>
+                    </div>
+                <% } else { %>
+                    <div class="d-inline-block">
+                        <a href="/signup" class="header-item">Signup</a>
+                    </div>
+
+                    <div class="d-inline-block">
+                        <a href="/login" class="header-item">Login</a>
+                    </div>
+                <% } %>
+
+
+            </div>
+        </div>
+    </header>
+    <script>
+        const userData = '<%- JSON.stringify(session.user) %>';
+        if (userData !== "" && userData !="null") {
+            const username = JSON.parse(userData)['firstname'] + " " + JSON.parse(userData)['lastname'];
+            document.getElementById("user_name").innerHTML = username;
+        }
+
+        function logout() {
+            sessionStorage.removeItem('session');
+            document.cookie = "token" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+            window.location.href = "logout"
+        }
+    </script>
+</div>
